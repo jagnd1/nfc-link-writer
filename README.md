@@ -11,13 +11,32 @@ git clone https://github.com/jagnd1/nfc-link-writer.git
 cd nfc-link-writer
 npm install
 
-# Android
+# Android (with Metro bundler)
 npm run android
 
 # iOS
 cd ios && pod install && cd ..
 npm run ios
 ```
+
+## Build Standalone APK (Android)
+
+Create an APK that works without Metro bundler:
+
+```bash
+# Bundle JavaScript into APK
+mkdir -p android/app/src/main/assets
+
+npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+
+# Build APK
+cd android && ./gradlew assembleDebug && cd ..
+
+# Install on device
+adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+APK location: `android/app/build/outputs/apk/debug/app-debug.apk`
 
 ## Requirements
 
